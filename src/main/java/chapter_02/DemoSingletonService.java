@@ -9,6 +9,7 @@ package chapter_02;
  * @author ken
  *
  */
+@Service
 public class DemoSingletonService {
-
+	
 }
