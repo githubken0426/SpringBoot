@@ -1,4 +1,7 @@
 package chapter_02;
+
+import org.springframework.stereotype.Service;
+
 /**
  * Singleton:Spring默认配置,全容器共享一个实例。
  * Prototype: 每次调用创建一个新的实例。
