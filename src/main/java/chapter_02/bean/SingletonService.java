@@ -1,4 +1,4 @@
-package chapter_02;
+package chapter_02.bean;
 
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class DemoSingletonService {
+public class SingletonService {
 	
 }
