@@ -1,4 +1,4 @@
-package chapter_02.bean;
+package chapter_02.scope_21;
 
 import org.springframework.stereotype.Service;
 

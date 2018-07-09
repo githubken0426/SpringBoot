@@ -1,10 +1,6 @@
-package chapter_02;
+package chapter_02.scope_21;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import chapter_02.bean.PrototypeService;
-import chapter_02.bean.ScopeConfig;
-import chapter_02.bean.SingletonService;
 
 public class MainTest {
 	public static void main(String[] args) {
