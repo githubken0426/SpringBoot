@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -40,6 +41,7 @@ public class ELConfig {
 	@Value("${book.name}")
 	private String bookName;
 	
+	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertyConfigure() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
