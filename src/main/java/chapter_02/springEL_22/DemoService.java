@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class DemoService {
 	@Value("其他类的属性")
-	private String ahother;
+	private String another;
 
-	public String getAhother() {
-		return ahother;
+	public String getAnother() {
+		return another;
 	}
 
-	public void setAhother(String ahother) {
-		this.ahother = ahother;
+	public void setAnother(String another) {
+		this.another = another;
 	}
 }
