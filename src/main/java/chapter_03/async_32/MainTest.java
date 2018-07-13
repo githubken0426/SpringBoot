@@ -1,4 +1,4 @@
-package chapter_03.task_32;
+package chapter_03.async_32;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
