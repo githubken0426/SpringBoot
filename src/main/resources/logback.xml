@@ -5,7 +5,12 @@
 	debug: 当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 
 -->
 <configuration scan="true" scanPeriod="1 seconds" debug="true">
-	<contextLisyener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+	<!-- 有时我们需要在logback中做一些动态配置，比如日志等级、输出路径等，这些信息可以存放在数据库中，启动时加载，可以用logback自带的contextListener。 -->
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+	
+	<jmxConfiguration/>
 		<!-- 二、
 			property：用来定义变量值，它有两个属性name和value，通过<property>定义的值会被插入到logger上下文中，可以使“${}”来使用变量。
 　　　　		name: 变量的名称,value: 的值时变量定义的值 
@@ -49,14 +54,12 @@
 			RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件
 			SocketAppender、SMTPAppender、DBAppender、SyslogAppender、SiftingAppender
 		 -->
-		 
-		 <logger name="com.apache.ibatis" level="TRACE"/>
+		<logger name="com.apache.ibatis" level="TRACE"/>
 		<logger name="java.sql.Connection" level="DEBUG"/>
 		<logger name="java.sql.Statement" level="DEBUG"/>
 		<logger name="java.sql.PreparedStatement" level="DEBUG"/>
 		<root level="DEBUG"> 
 　　　　　　　　<appender-ref ref="STDOUT" /> 
 　　　　　　</root> 
-		<resetJUL>true</resetJUL>
-	</contextLisyener>
+		
 </configuration>
