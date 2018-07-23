@@ -11,12 +11,24 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan("chapter_04._41")
 public class MVCConfig {
+	/**
+	 * 视图解析器
+	 * <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+			<property name="prefix" value="/" />
+			<property name="suffix" value=".jsp" />
+		</bean>
+	 * @return
+	 * @throws 
+	 * @date 2018年7月23日 下午8:33:33
+	 */
 	@Bean
 	public InternalResourceViewResolver bireResolver() {
+		//视图解析器
 		InternalResourceViewResolver view =new InternalResourceViewResolver();
+		view.setViewClass(JstlView.class);
 		view.setPrefix("/WEB-INF/classes/views/");
 		view.setSuffix(".jsp");
-		view.setViewClass(JstlView.class);
 		return view;
 	}
 }
