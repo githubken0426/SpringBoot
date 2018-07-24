@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h2>Hello World! SpringBoot</h2>
+	<a href="/test/anno">button</a>
 </body>
 </html>
