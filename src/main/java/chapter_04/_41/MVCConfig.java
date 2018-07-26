@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("chapter_04._41")
+@ComponentScan("chapter_04")
 public class MVCConfig {
 	/**
 	 * 视图解析器
