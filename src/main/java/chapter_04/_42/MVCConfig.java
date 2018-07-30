@@ -1,4 +1,4 @@
-package chapter_04._41;
+package chapter_04._42;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
