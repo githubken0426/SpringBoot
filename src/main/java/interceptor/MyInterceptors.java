@@ -7,18 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.util.PathMatcher;
+import org.springframework.web.context.request.WebRequestInterceptor;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.handler.WebRequestHandlerInterceptorAdapter;
 import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- 
- * 
- * 
- * 4.WebRequestHandlerInterceptorAdapter 异步请求处理专门讲解
- * 
  * 5.ConversionServiceExposingInterceptor 可以设置一个ConversionService
  * 
  * 6.LocaleChangeInterceptor 可以设置国际化解析器
@@ -40,7 +37,9 @@ public class MyInterceptors {
 	 */
 	class MyHandler extends HandlerInterceptorAdapter {
 		/**
-		 * 1、拦截器的预处理。 在controller处理逻辑之前执行，返回true再接着执行controller中的其他业务; 返回false则中断返回
+		 * 1、拦截器的预处理。 
+		 * 	在controller处理逻辑之前执行，返回true再接着执行controller中的其他业务; 
+		 * 	返回false则中断返回
 		 */
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 				throws Exception {
@@ -57,7 +56,7 @@ public class MyInterceptors {
 
 		/**
 		 * 3、在controller返回结果之后执行(在DispatchServlet执行完ModelAndView之后执行)
-		 * 可以根据ex是否为null判断是否发生了异常，进行日志记录
+		 * 可以根据ex是否为null判断是否发生了异常，进行日志记录。
 		 */
 		public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
 				Exception ex) throws Exception {
@@ -154,5 +153,47 @@ public class MyInterceptors {
 				Object handler) throws Exception {
 		}
 		
+	}
+	
+	/**
+	 * 4、WebRequestHandlerInterceptorAdapter
+	 * 适配器它实现servlet HandlerInterceptor接口并封装底层WebRequestInterceptor
+	 */
+	class MyWebRequestHandler extends WebRequestHandlerInterceptorAdapter{
+
+		public MyWebRequestHandler(WebRequestInterceptor requestInterceptor) {
+			super(requestInterceptor);
+		}
+
+		@Override
+		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+				throws Exception {
+			return super.preHandle(request, response, handler);
+		}
+
+		@Override
+		public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+				ModelAndView modelAndView) throws Exception {
+			super.postHandle(request, response, handler, modelAndView);
+		}
+
+		@Override
+		public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+				Exception ex) throws Exception {
+			super.afterCompletion(request, response, handler, ex);
+		}
+
+		@Override
+		public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response,
+				Object handler) {
+			super.afterConcurrentHandlingStarted(request, response, handler);
+			/**
+			 * if (this.requestInterceptor instanceof AsyncWebRequestInterceptor) {
+					AsyncWebRequestInterceptor asyncInterceptor = (AsyncWebRequestInterceptor) this.requestInterceptor;
+					DispatcherServletWebRequest webRequest = new DispatcherServletWebRequest(request, response);
+					asyncInterceptor.afterConcurrentHandlingStarted(webRequest);
+				}
+			 */
+		}
 	}
 }
