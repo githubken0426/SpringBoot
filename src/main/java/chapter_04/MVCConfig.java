@@ -1,4 +1,4 @@
-package chapter_04._44;
+package chapter_04;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,7 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-@ComponentScan("chapter_04")
+import chapter_04._44.MyInterceptor;
+
+@ComponentScan("chapter_04._44")
 @Configuration
 @EnableWebMvc
 public class MVCConfig extends WebMvcConfigurerAdapter{
@@ -20,16 +22,23 @@ public class MVCConfig extends WebMvcConfigurerAdapter{
 	 * @EnableWebMvc + implements WebMvcConfigurer ： 会覆盖@EnableAutoConfiguration关于WebMvcAutoConfiguration的配置
 	 * extends WebMvcConfigurationSupport ：会覆盖@EnableAutoConfiguration关于WebMvcAutoConfiguration的配置
 	 * extends DelegatingWebMvcConfiguration ：会覆盖@EnableAutoConfiguration关于WebMvcAutoConfiguration的配置
+	 * 视图解析器
+	 * <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+			<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+			<property name="prefix" value="/" />
+			<property name="suffix" value=".jsp" />
+		</bean>
 	 * @return
 	 * @throws 
 	 * @date 2018年7月31日 上午9:07:31
 	 */
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
-		InternalResourceViewResolver view=new InternalResourceViewResolver();
-		view.setPrefix("");
-		view.setSuffix(".jsp");
+		// 视图解析器
+		InternalResourceViewResolver view = new InternalResourceViewResolver();
 		view.setViewClass(JstlView.class);
+		view.setPrefix("/WEB-INF/classes/views/");
+		view.setSuffix(".jsp");
 		return view;
 	}
 	

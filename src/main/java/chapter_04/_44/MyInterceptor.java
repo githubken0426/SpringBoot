@@ -23,7 +23,10 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		request.setAttribute("startTime",System.currentTimeMillis());
+		SimpleDateFormat format=new SimpleDateFormat();
+		Long start=System.currentTimeMillis();
+		request.setAttribute("startTime",start);
+		System.out.println("start:"+format.format(start));
 		return true;
 	}
 	/**

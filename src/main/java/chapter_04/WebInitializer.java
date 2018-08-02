@@ -7,8 +7,6 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
-
-import chapter_04._42.MVCConfig;
 /**
  * 实现WebApplicationInitializer接口等同于web.xml的配置
  * @ClassName: WebInitializer 
