@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>我的SpringBoot练习</title>
+<title>SpringBoot Practice</title>
 </head>
 <body>
 	<h2>Hello World! SpringBoot</h2>

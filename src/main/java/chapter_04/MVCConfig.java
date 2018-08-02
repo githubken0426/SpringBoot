@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 import chapter_04._44.MyInterceptor;
 
-@ComponentScan("chapter_04._44")
+@ComponentScan("chapter_04")
 @Configuration
 @EnableWebMvc
 public class MVCConfig extends WebMvcConfigurerAdapter{
