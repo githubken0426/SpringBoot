@@ -1,9 +1,10 @@
 package chapter_04._44;
 
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -22,7 +23,8 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		return super.preHandle(request, response, handler);
+		request.setAttribute("startTime",System.currentTimeMillis());
+		return true;
 	}
 	/**
 	 * 后处理（调用了Service并返回ModelAndView，但未进行页面渲染）
@@ -32,7 +34,10 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		super.postHandle(request, response, handler, modelAndView);
+		SimpleDateFormat format=new SimpleDateFormat();
+		Object start=request.getAttribute("startTime");
+		request.removeAttribute("startTime");
+		System.out.println("start:"+format.format(start)+",end:"+format.format(System.currentTimeMillis()));
 	}
 	/**
 	 * 在action返回结果之后执行
@@ -55,27 +60,5 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 	public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		super.afterConcurrentHandlingStarted(request, response, handler);
-	}
-	
-	/**
-	 * 实现HandlerInterceptor接口
-	 * @ClassName: InterceptorImp 
-	 * @Description: 
-	 * @author ken 
-	 * @date 2018年7月31日 上午8:48:23
-	 */
-	class InterceptorImp implements HandlerInterceptor{
-		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-				throws Exception {
-			return false;
-		}
-
-		public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-				ModelAndView modelAndView) throws Exception {
-		}
-
-		public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
-				Exception ex) throws Exception {
-		}
 	}
 }
