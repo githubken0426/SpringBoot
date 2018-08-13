@@ -16,6 +16,7 @@
 　　　　		name: 变量的名称,value: 的值时变量定义的值 
 		-->
 		<property name="APP_Name" value="SrpingBoot_ken" />
+		<property name="LOG_PATH" value="/logs" />
 		<!-- 三、
 			contextName：用来设置上下文名称，每个logger都关联到logger上下文，默认上下文名称为default。 
 			但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改 。
@@ -43,7 +44,7 @@
 			<append>：如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true。
 		-->
 		<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-			<file>testFile.log</file>
+			<file>>${LOG_PATH}/${APP_Name}.%d{yyyy-MM-dd}.log</file>
 			<append>true</append>
 			<encoder>
 				<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n
