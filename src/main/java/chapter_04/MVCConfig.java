@@ -11,6 +11,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import chapter_04._44.MyInterceptor;
+import interceptor.MyInterceptors;
 
 @ComponentScan("chapter_04")
 @Configuration
@@ -49,6 +50,6 @@ public class MVCConfig extends WebMvcConfigurerAdapter{
 	// 增加拦截器
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new MyInterceptor());
+		registry.addInterceptor(new MyInterceptors().new MyHandler());
 	}
 }

@@ -26,7 +26,7 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 		SimpleDateFormat format=new SimpleDateFormat();
 		Long start=System.currentTimeMillis();
 		request.setAttribute("startTime",start);
-		System.out.println("start:"+format.format(start));
+		System.out.println("1、preHandle,start:"+format.format(start));
 		return true;
 	}
 	/**
@@ -40,7 +40,7 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 		SimpleDateFormat format=new SimpleDateFormat();
 		Object start=request.getAttribute("startTime");
 		request.removeAttribute("startTime");
-		System.out.println("start:"+format.format(start)+",end:"+format.format(System.currentTimeMillis()));
+		System.out.println("2、postHandle,start:"+format.format(start)+",end:"+format.format(System.currentTimeMillis()));
 	}
 	/**
 	 * 在action返回结果之后执行
@@ -49,6 +49,7 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
+		System.out.println("3、afterCompletion");
 		super.afterCompletion(request, response, handler, ex);
 	}
 	/**
@@ -62,6 +63,7 @@ public class MyInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		System.out.println("4、afterConcurrentHandlingStarted");
 		super.afterConcurrentHandlingStarted(request, response, handler);
 	}
 }

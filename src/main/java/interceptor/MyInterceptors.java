@@ -1,6 +1,7 @@
 package interceptor;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -46,7 +47,7 @@ public class MyInterceptors {
 	 * 1.HandlerInterceptorAdapter 这个是简单的实现模板，可以继承来实现自己的拦截器定义
 	 * @author ken
 	 */
-	class MyHandler extends HandlerInterceptorAdapter {
+	public class MyHandler extends HandlerInterceptorAdapter {
 		/**
 		 * 1、拦截器的预处理。 
 		 * 	在controller处理逻辑之前执行，返回true再接着执行controller中的其他业务; 
@@ -54,7 +55,11 @@ public class MyInterceptors {
 		 */
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 				throws Exception {
-			return false;
+			SimpleDateFormat format=new SimpleDateFormat();
+			Long start=System.currentTimeMillis();
+			request.setAttribute("startTime",start);
+			System.out.println("1、preHandle,start:"+format.format(start));
+			return true;
 		}
 
 		/**
@@ -63,6 +68,10 @@ public class MyInterceptors {
 		 */
 		public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 				ModelAndView modelAndView) throws Exception {
+			SimpleDateFormat format=new SimpleDateFormat();
+			Object start=request.getAttribute("startTime");
+			request.removeAttribute("startTime");
+			System.out.println("2、postHandle,start:"+format.format(start)+",end:"+format.format(System.currentTimeMillis()));
 		}
 
 		/**
@@ -71,14 +80,22 @@ public class MyInterceptors {
 		 */
 		public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
 				Exception ex) throws Exception {
+			System.out.println("3、afterCompletion");
+			super.afterCompletion(request, response, handler, ex);
 		}
 
 		/**
-		 * 4、这个方法会在Controller方法异步执行时开始执行，
-		 * 而Interceptor的postHandle方法则是需要等到Controller的异步执行完才能执行。
+		 * 4、相对于HandlerInterceptor，HandlerInterceptorAdapter多了一个实现方法afterConcurrentHandlingStarted()，
+		 * 它来自HandlerInterceptorAdapter的直接实现类AsyncHandlerInterceptor,
+		 * AsyncHandlerInterceptor接口直接继承了HandlerInterceptor，并新添了afterConcurrentHandlingStarted()方法用于处理异步请求，
+		 * 当Controller中有异步请求方法的时候会触发该方法时，
+		 * 异步请求先支持preHandle、然后执行afterConcurrentHandlingStarted。
+		 * 异步线程完成之后执行preHandle、postHandle、afterCompletion
 		 */
 		public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response,
 				Object handler) throws Exception {
+			System.out.println("4、afterConcurrentHandlingStarted");
+			super.afterConcurrentHandlingStarted(request, response, handler);
 		}
 	}
 	
@@ -87,7 +104,7 @@ public class MyInterceptors {
 	 *   这个拦截器可以设置缓存及缓存时间、请求方法、url是否使用默认的iso-8859-1，及URL解析设置，
 	 *   PathMatcher路径匹配器等，还有设置session是否是需要的，可以说这个拦截器功能还是很多的。
 	 */
-	class MyWebContent extends WebContentInterceptor {
+	public class MyWebContent extends WebContentInterceptor {
 		@Override
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 				throws ServletException {
@@ -141,7 +158,7 @@ public class MyInterceptors {
 	 * 3.AsyncHandlerInterceptor接口继承HandlerInterceptor，用来处理异步请求，
 	 *   直接返回不执行postHandle和afterCompletion的代替方法afterConcurrentHandlingStarted。
 	 */
-	class MyAsyncHandler implements AsyncHandlerInterceptor{
+	public class MyAsyncHandler implements AsyncHandlerInterceptor{
 
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 				throws Exception {
@@ -170,7 +187,7 @@ public class MyInterceptors {
 	 * 4、与HandlerInterceptor接口类似，区别是 WebRequestInterceptor 的 preHandle 没有返回值。
 	 * WebRequestInterceptor 是针对请求的，接口方法参数中没有response
 	 */
-	class MyWebRequest implements WebRequestInterceptor{
+	public class MyWebRequest implements WebRequestInterceptor{
 		public void preHandle(WebRequest request) throws Exception {
 		}
 
@@ -186,7 +203,7 @@ public class MyInterceptors {
 	 * 5、WebRequestHandlerInterceptorAdapter
 	 * 适配器它实现servlet HandlerInterceptor接口并封装底层WebRequestInterceptor
 	 */
-	class MyWebRequestHandler extends WebRequestHandlerInterceptorAdapter{
+	public class MyWebRequestHandler extends WebRequestHandlerInterceptorAdapter{
 		public MyWebRequestHandler(WebRequestInterceptor requestInterceptor) {
 			super(requestInterceptor);
 		}
@@ -231,7 +248,7 @@ public class MyInterceptors {
 	 *   之后会被加入到AbstractHandlerMapping的mappedInterceptors集合中。
 	 *   该拦截器会在每个请求之前往request中丢入ConversionService。主要用于spring:eval标签的使用。
 	 */
-	class MyConversionService extends ConversionServiceExposingInterceptor{
+	public class MyConversionService extends ConversionServiceExposingInterceptor{
 		public MyConversionService(ConversionService conversionService) {
 			super(conversionService);
 		}
@@ -268,7 +285,7 @@ public class MyInterceptors {
 	 * http://localhost:8080/court/welcome.htm?language=en_US.
 	 * http://localhost:8080/court/welcome.htm?language=de.
 	 */
-	class MyLocaleChange extends LocaleChangeInterceptor{
+	public class MyLocaleChange extends LocaleChangeInterceptor{
 
 		@Override
 		public void setParamName(String paramName) {
@@ -290,7 +307,7 @@ public class MyInterceptors {
 	/**
 	 * 8、主题解析器
 	 */
-	class MyThemeChange extends ThemeChangeInterceptor{
+	public class MyThemeChange extends ThemeChangeInterceptor{
 		@Override
 		public void setParamName(String paramName) {
 			super.setParamName(paramName);
@@ -313,7 +330,7 @@ public class MyInterceptors {
 	 *    <mvc:resources location="/" mapping="/**"></mvc:resources>
 	 *  @author ken
 	 */
-	class MyResourceUrlProvider extends ResourceUrlProviderExposingInterceptor{
+	public class MyResourceUrlProvider extends ResourceUrlProviderExposingInterceptor{
 		public MyResourceUrlProvider(ResourceUrlProvider resourceUrlProvider) {
 			super(resourceUrlProvider);
 		}
@@ -345,9 +362,9 @@ public class MyInterceptors {
 	}
 	
 	/**
-	 * 检查用户角色授权
+	 * 10、检查用户角色授权
 	 */
-	class MyUserRoleAuthorization extends UserRoleAuthorizationInterceptor{
+	public class MyUserRoleAuthorization extends UserRoleAuthorizationInterceptor{
 
 		@Override
 		protected void handleNotAuthorized(HttpServletRequest request, HttpServletResponse response, Object handler)
